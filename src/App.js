@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import uuid from 'react-uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchTodos} from './redux/slice/userSlice';
 
 function App() {
+  const dispatch=useDispatch();
+  const state=useSelector((state)=>state);
+  console.log(state);
+  if(state.user.isLoading){
+    
+    return <h1>Loading ...</h1>
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <button type="button" onClick={(e)=>dispatch(fetchTodos())}>Fetch Todo</button>
+     {state.user.data.results && state.user.data.results.map(current =><li key={uuid()}>{current.gender}</li>)
+    
+     }
+    
     </div>
   );
 }
